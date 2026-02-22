@@ -16,9 +16,8 @@ def pil_to_surface(pil_image, max_size=(50, 50)):
 class Player:
     def __init__(self):
         try:
-            pil_img = Image.open("assets/run_away.png").convert("RGBA")
-            # 関数のほうでリサイズするようにしたので、ここではそのまま渡す
-            self.image = pil_to_surface(pil_img,(100,100))
+            self.image = pygame.image.load("assets/run_away.png").convert_alpha()
+            self.image = pygame.transform.scale(self.image, (100, 100)) # サイズ調整
         except:
             self.image = pygame.Surface((100, 100))
             self.image.fill((0, 200, 255))
@@ -239,5 +238,6 @@ async def play_game(screen):
         clock.tick(60)
 
         await asyncio.sleep(0)  # ★ゲームオーバー判定は「カウント中かどうか」に関係なくチェックする場所に置く
+
 
     return "GAMEOVER", int(score)
