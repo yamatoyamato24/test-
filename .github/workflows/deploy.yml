@@ -1,0 +1,21 @@
+name: pygbag_build
+on: [workflow_dispatch] # GitHubのActionsタブから手動でボタンを押すと動きます
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install pygbag and Build
+        run: |
+          python3 -m pip install pygbag
+          # main.pyがある場所を指定。フォルダ構成に合わせて調整してください
+          python3 -m pygbag --build $GITHUB_WORKSPACE/main.py
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@4.1.7
+        with:
+          branch: gh-pages      # 公開用の専用ブランチ
+          folder: build/web     # pygbagが書き出したデータが入る場所
